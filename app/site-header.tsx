@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ChevronDown, Menu, Search, ShoppingBag, UserRound, X } from "lucide-react";
 import { useState } from "react";
+import { useCart } from "../components/commerce/cart-context";
 
 const menuItems = [
   { label: "Products", links: ["Review Stands", "Review Cards", "Stickers & Plates", "Product Bundles"] },
@@ -13,6 +14,7 @@ const menuItems = [
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const { count, setOpen: setCartOpen } = useCart();
   return (
     <header className="site-header">
       <div className="shell header-inner">
@@ -25,7 +27,7 @@ export function SiteHeader() {
         <div className="header-actions">
           <button aria-label="Search"><Search size={19} /></button>
           <Link href="/account" aria-label="Account"><UserRound size={19} /></Link>
-          <Link href="/cart" aria-label="Cart" className="cart-icon"><ShoppingBag size={19} /><span>0</span></Link>
+          <button aria-label="Cart" className="cart-icon" onClick={() => setCartOpen(true)}><ShoppingBag size={19} /><span>{count}</span></button>
           <Link href="/shop" className="header-cta">Shop now</Link>
           <button className="menu-toggle" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Toggle menu">{open ? <X /> : <Menu />}</button>
         </div>
