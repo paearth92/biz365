@@ -1,155 +1,23 @@
 import Link from "next/link";
-import {
-  ArrowRight,
-  BadgeCheck,
-  ChevronRight,
-  CreditCard,
-  MessageSquareText,
-  Nfc,
-  QrCode,
-  ShieldCheck,
-  Smartphone,
-  Sparkles,
-  Star,
-  Store,
-  Zap,
-} from "lucide-react";
+import { ArrowRight, BadgeCheck, Building2, Check, Nfc, QrCode, ShieldCheck, Smartphone, Sparkles, Star, Store, UtensilsCrossed } from "lucide-react";
 import { SiteHeader } from "./site-header";
 import { ProductVisual } from "./product-visual";
+import { ProductCard } from "../components/commerce/product-card";
+import { products } from "../lib/catalog";
 
-const products = [
-  { name: "Google Review Stand", kind: "Counter Stand", price: "$29.00", tone: "blue", badge: "BEST SELLER" },
-  { name: "Google Review Card", kind: "Pocket Card", price: "$14.00", tone: "black", badge: "ON THE GO" },
-  { name: "Review Starter Bundle", kind: "Stand + Card", price: "$39.00", tone: "white", badge: "SAVE 12%" },
+const featured=products.filter(product=>product.featured).slice(0,3);
+const industries=[
+  {name:"Restaurants & cafés",copy:"Invite feedback at the counter or host stand.",icon:UtensilsCrossed},
+  {name:"Salons & studios",copy:"Make the post-service moment effortless.",icon:Sparkles},
+  {name:"Retail & services",copy:"Connect at checkout without extra searching.",icon:Store},
+  {name:"Professional offices",copy:"Create a polished reception touchpoint.",icon:Building2},
 ];
 
-const industries = ["Restaurants", "Salons", "Dental offices", "Auto services", "Fitness studios", "Retail stores"];
-
-export default function Home() {
-  return (
-    <main>
-      <div className="announcement">
-        <span><Sparkles size={14} /> Launch offer: Free U.S. shipping on orders $35+</span>
-        <Link href="/shop">Shop now <ArrowRight size={14} /></Link>
-      </div>
-      <SiteHeader />
-
-      <section className="hero">
-        <div className="hero-orb hero-orb--one" />
-        <div className="hero-orb hero-orb--two" />
-        <div className="shell hero-grid">
-          <div className="hero-content">
-            <div className="eyebrow"><span className="eyebrow-dot" /> Smart tools for growing businesses</div>
-            <h1>More reviews.<br /><span>One simple tap—or scan.</span></h1>
-            <p className="hero-lead">Turn happy customers into lasting credibility with NFC-powered review products built for the front counter.</p>
-            <div className="hero-actions">
-              <Link className="button button--primary" href="/shop">Shop review products <ArrowRight size={17} /></Link>
-              <Link className="button button--ghost" href="/how-it-works"><span className="play">▶</span> See how it works</Link>
-            </div>
-            <div className="hero-proof">
-              <div className="avatar-stack"><span>JD</span><span>MK</span><span>AP</span><span>+</span></div>
-              <div><div className="stars">★★★★★</div><p>Designed for everyday business use</p></div>
-            </div>
-          </div>
-          <div className="hero-product">
-            <div className="float-note float-note--top"><span><Zap size={16} /></span><div><strong>Instant connection</strong><small>No app required</small></div></div>
-            <ProductVisual />
-            <div className="float-note float-note--bottom"><span><BadgeCheck size={17} /></span><div><strong>Works with NFC + QR</strong><small>iPhone &amp; Android</small></div></div>
-          </div>
-        </div>
-        <div className="shell confidence-bar">
-          <span><ShieldCheck size={18} /> Secure checkout</span>
-          <span><Smartphone size={18} /> iPhone &amp; Android</span>
-          <span><QrCode size={18} /> NFC + QR backup</span>
-          <span><CreditCard size={18} /> No app needed</span>
-        </div>
-      </section>
-
-      <section className="section shell">
-        <div className="section-head">
-          <div><p className="kicker">SHOP BEST SELLERS</p><h2>Small tools. Big business impact.</h2></div>
-          <Link className="text-link" href="/shop">View all products <ArrowRight size={16} /></Link>
-        </div>
-        <div className="product-grid">
-          {products.map((product) => (
-            <article className="product-card" key={product.name}>
-              <div className="product-card__media">
-                <span className="product-badge">{product.badge}</span>
-                <button className="quick-add" aria-label={`Quick add ${product.name}`}>+</button>
-                <ProductVisual tone={product.tone} compact />
-              </div>
-              <div className="product-card__body">
-                <div><span>{product.kind}</span><h3>{product.name}</h3></div>
-                <strong>{product.price}</strong>
-              </div>
-              <div className="product-rating"><span>★★★★★</span> Built for daily use</div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="how-section">
-        <div className="shell how-grid">
-          <div className="how-demo">
-            <div className="phone">
-              <div className="phone-island" />
-              <div className="phone-screen">
-                <div className="google-g">G</div>
-                <small>How was your experience?</small>
-                <strong>Clean &amp; Co.</strong>
-                <div className="review-stars"><Star /><Star /><Star /><Star /><Star /></div>
-                <button>Post review</button>
-              </div>
-            </div>
-            <div className="tap-card"><Nfc /><strong>TAP</strong><small>to review</small></div>
-            <div className="signal s1" /><div className="signal s2" /><div className="signal s3" />
-          </div>
-          <div className="how-content">
-            <p className="kicker">HOW IT WORKS</p>
-            <h2>From happy customer to new review—in seconds.</h2>
-            <p>Remove the searching, typing and “I’ll do it later.” Biz365 puts your review page right where the moment happens.</p>
-            <ol className="steps">
-              <li><span>01</span><div><strong>Place it</strong><p>Set your Biz365 product where customers naturally finish their visit.</p></div></li>
-              <li><span>02</span><div><strong>Tap or scan</strong><p>Customers use NFC or the QR code with their own phone.</p></div></li>
-              <li><span>03</span><div><strong>Leave a review</strong><p>Your genuine review page opens directly—no app or searching.</p></div></li>
-            </ol>
-            <Link className="text-link text-link--light" href="/how-it-works">Learn how Biz365 works <ArrowRight size={16} /></Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="section shell industry-section">
-        <div className="industry-intro">
-          <p className="kicker">BUILT FOR REAL BUSINESSES</p>
-          <h2>Meet customers where<br />business happens.</h2>
-          <p>At the counter, front desk or checkout—make your next review the easiest one to leave.</p>
-          <Link className="button button--dark" href="/industries">Explore industries <ArrowRight size={17} /></Link>
-        </div>
-        <div className="industry-grid">
-          {industries.map((industry, i) => (
-            <Link href={`/industries/${industry.toLowerCase().replaceAll(" ", "-")}`} className={`industry-card industry-card--${i + 1}`} key={industry}>
-              <span>{i % 3 === 0 ? <Store /> : i % 3 === 1 ? <MessageSquareText /> : <Star />}</span>
-              <strong>{industry}</strong><ChevronRight size={18} />
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section className="cta-section shell">
-        <div className="cta-copy"><span className="cta-icon"><Nfc /></span><div><p className="kicker">READY WHEN YOU ARE</p><h2>Make every happy customer count.</h2><p>Put your review page one tap or scan away.</p></div></div>
-        <Link className="button button--white" href="/shop">Shop Biz365 <ArrowRight size={17} /></Link>
-      </section>
-
-      <footer className="footer">
-        <div className="shell footer-grid">
-          <div className="footer-brand"><Link className="logo logo--light" href="/"><span>B</span><strong>Biz365</strong></Link><p>Smart, simple tools that help businesses build trust and grow every day.</p><div className="footer-pills"><span>NFC</span><span>QR</span><span>SSL</span></div></div>
-          <div><strong>Shop</strong><Link href="/collections/review-stands">Review stands</Link><Link href="/collections/review-cards">Review cards</Link><Link href="/collections/review-stickers">Stickers &amp; plates</Link><Link href="/collections/bundles">Bundles</Link></div>
-          <div><strong>Discover</strong><Link href="/how-it-works">How it works</Link><Link href="/industries">Industries</Link><Link href="/guides">Guides</Link><Link href="/nfc-compatibility">Compatibility</Link></div>
-          <div><strong>Help</strong><Link href="/faq">FAQs</Link><Link href="/setup">Product setup</Link><Link href="/track-order">Track order</Link><Link href="/contact">Contact us</Link></div>
-          <div className="newsletter"><strong>Growth tips, minus the noise.</strong><p>Practical ideas for earning more customer trust.</p><form><input type="email" placeholder="Email address" aria-label="Email address" /><button aria-label="Subscribe"><ArrowRight /></button></form></div>
-        </div>
-        <div className="shell footer-bottom"><span>© 2026 Biz365. All rights reserved.</span><span>Not affiliated with or endorsed by Google.</span><div><Link href="/privacy-policy">Privacy</Link><Link href="/terms">Terms</Link></div></div>
-      </footer>
-    </main>
-  );
-}
+export default function Home(){return <main className="premium-home"><div className="announcement"><span>Free U.S. shipping on orders $35+</span><Link href="/shop">Explore the collection <ArrowRight/></Link></div><SiteHeader/>
+  <section className="premium-hero"><div className="hero-ambient hero-ambient-one"/><div className="hero-ambient hero-ambient-two"/><div className="shell premium-hero-grid"><div className="premium-hero-copy"><div className="premium-pill"><span/><strong>NFC + QR products for modern businesses</strong></div><h1>Make the review moment <em>effortless.</em></h1><p>Premium countertop tools that let customers reach your review page with one simple NFC tap or QR scan—no app, no searching, no awkward instructions.</p><div className="premium-hero-actions"><Link className="premium-button primary" href="/shop">Shop review products <ArrowRight/></Link><Link className="premium-button secondary" href="/how-it-works">See how it works</Link></div><div className="premium-proof"><span><BadgeCheck/> Standard designs, ready to order</span><span><Smartphone/> iPhone + Android</span></div></div><div className="premium-hero-stage"><div className="stage-card stage-card-one"><Nfc/><span><strong>Tap</strong><small>with NFC</small></span></div><div className="stage-card stage-card-two"><QrCode/><span><strong>Scan</strong><small>the QR code</small></span></div><div className="hero-pedestal"><ProductVisual tone="blue"/></div><div className="stage-caption"><span>Google Review Stand</span><strong>From $29</strong></div></div></div><div className="shell premium-benefit-row"><span><ShieldCheck/><strong>No customer app</strong><small>Nothing extra to download</small></span><span><Nfc/><strong>NFC tap included</strong><small>Fast, natural interaction</small></span><span><QrCode/><strong>QR scan included</strong><small>A visible second option</small></span><span><Smartphone/><strong>Modern phone ready</strong><small>Designed for iPhone + Android</small></span></div></section>
+  <section className="premium-section shell"><div className="premium-section-head"><div><span className="premium-overline">THE BIZ365 COLLECTION</span><h2>Designed to look right in your business.</h2><p>Choose the format that fits the moment—from a polished counter stand to a card your team can carry.</p></div><Link href="/shop">Shop all products <ArrowRight/></Link></div><div className="commerce-grid premium-product-grid">{featured.map(product=><ProductCard product={product} key={product.slug}/>)}</div></section>
+  <section className="premium-how"><div className="shell premium-how-grid"><div className="premium-how-copy"><span className="premium-overline light">HOW IT WORKS</span><h2>Two ways to connect.<br/>One clear destination.</h2><p>Customers choose the interaction that feels natural. Both NFC and QR lead to the same intended page.</p><Link href="/how-it-works">Explore how Biz365 works <ArrowRight/></Link></div><div className="premium-journey"><article><span>01</span><div><strong>Place it</strong><p>Set it where the customer experience naturally ends.</p></div></article><article><span>02</span><div><strong>Tap or scan</strong><p>Customers use NFC or their phone camera—no app required.</p></div></article><article><span>03</span><div><strong>Reach the page</strong><p>Your intended review or social destination opens directly.</p></div></article></div><div className="premium-device-demo"><div className="demo-halo"/><div className="demo-product"><span>B</span><strong>TAP</strong><small>OR SCAN</small><QrCode/></div><div className="demo-phone-new"><span>Destination opened</span><div><Star/><Star/><Star/><Star/><Star/></div><strong>Ready for feedback</strong></div></div></div></section>
+  <section className="premium-section shell business-section"><div className="premium-section-head"><div><span className="premium-overline">MADE FOR CUSTOMER-FACING BUSINESSES</span><h2>At home in every customer moment.</h2></div></div><div className="business-grid">{industries.map(({name,copy,icon:Icon})=><article key={name}><span><Icon/></span><h3>{name}</h3><p>{copy}</p><Link href="/industries">Explore solutions <ArrowRight/></Link></article>)}</div></section>
+  <section className="premium-quote shell"><div><span className="premium-overline light">WHY BIZ365</span><h2>Professional enough for the counter. Simple enough for every customer.</h2><div className="quote-points"><span><Check/> Premium standard designs</span><span><Check/> Tap and scan on every applicable product</span><span><Check/> Clear setup guidance</span></div></div><Link className="premium-button white" href="/shop">Find your product <ArrowRight/></Link></section>
+  <footer className="footer premium-footer"><div className="shell footer-grid"><div className="footer-brand"><Link className="logo logo--light" href="/"><span>B</span><strong>Biz365</strong></Link><p>Premium NFC and QR products designed for better customer connections.</p></div><div><strong>Shop</strong><Link href="/collections/review-stands">Review stands</Link><Link href="/collections/review-cards">Review cards</Link><Link href="/collections/review-stickers">Stickers & plates</Link><Link href="/collections/bundles">Bundles</Link></div><div><strong>Learn</strong><Link href="/how-it-works">How it works</Link><Link href="/industries">For businesses</Link><Link href="/guides">Guides</Link><Link href="/faq">FAQs</Link></div><div><strong>Support</strong><Link href="/setup">Product setup</Link><Link href="/nfc-compatibility">Compatibility</Link><Link href="/contact">Contact</Link><Link href="/cart">Your cart</Link></div><div className="footer-promise"><strong>Tap or scan.</strong><p>Two simple ways to reach the same intended destination.</p><div><Nfc/><QrCode/></div></div></div><div className="shell footer-bottom"><span>© 2026 Biz365</span><span>Not affiliated with or endorsed by Google.</span><div><Link href="/privacy-policy">Privacy</Link><Link href="/terms">Terms</Link></div></div></footer>
+  </main>}
