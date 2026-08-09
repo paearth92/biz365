@@ -19,4 +19,5 @@ button,a,input,select,summary{outline-offset:3px}button:focus-visible,a:focus-vi
 @media(prefers-reduced-motion:reduce){.premium-benefit-row{animation:none!important;transform:none!important}.hero-pedestal{animation:none!important}.mobile-home-dock .dock-primary{transform:none}}
 
 .benefit-marquee{width:min(1240px,calc(100% - 64px));margin-inline:auto;overflow:hidden}.premium-benefit-row>span[aria-hidden="true"]{display:none}.premium-benefit-row>span:nth-child(4){border-right:0}
+.premium-hero-stage,.hero-pedestal,.hero-pedestal .product-visual{overflow:visible!important}.hero-pedestal{transform-style:flat!important;isolation:isolate}.hero-pedestal:before{transform:none!important;z-index:0}.hero-pedestal .product-visual{transform-origin:50% 50%;backface-visibility:visible;clip-path:none!important}.hero-pedestal .stand,.hero-pedestal .stand-foot,.hero-pedestal .product-shadow{backface-visibility:visible}
 @media(max-width:760px){.benefit-marquee{width:100%;border-top:1px solid #e2e6ed}.benefit-marquee .premium-benefit-row{border-top:0}.premium-benefit-row>span[aria-hidden="true"]{display:grid}}
