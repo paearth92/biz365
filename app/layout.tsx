@@ -4,6 +4,7 @@ import "./globals.css";
 import "./commerce.css";
 import "./premium.css";
 import { CartProvider } from "../components/commerce/cart-context";
+import { ExperienceMotion } from "../components/experience-motion";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,7 +38,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <CartProvider>{children}</CartProvider>
+        <CartProvider><ExperienceMotion />{children}</CartProvider>
       </body>
     </html>
   );
