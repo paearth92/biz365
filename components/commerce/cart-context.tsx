@@ -12,7 +12,7 @@ const CartContext = createContext<CartContextValue | null>(null);
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [open, setOpen] = useState(false);
-  useEffect(() => { try { const stored = localStorage.getItem("biz365-cart"); if (stored) setItems(JSON.parse(stored)); } catch {} }, []);
+  useEffect(() => { const timer=window.setTimeout(()=>{try { const stored = localStorage.getItem("biz365-cart"); if (stored) setItems(JSON.parse(stored)); } catch {}},0); return()=>window.clearTimeout(timer) }, []);
   useEffect(() => { localStorage.setItem("biz365-cart", JSON.stringify(items)); }, [items]);
   const value = useMemo<CartContextValue>(() => ({
     items, open, setOpen, count: items.reduce((sum, item) => sum + item.quantity, 0),
