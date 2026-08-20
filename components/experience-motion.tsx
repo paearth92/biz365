@@ -4,13 +4,103 @@ import { useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-export function ExperienceMotion(){useEffect(()=>{if(typeof window==="undefined")return;gsap.registerPlugin(ScrollTrigger);const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;if(reduced)return;const ctx=gsap.context(()=>{
-  gsap.fromTo(".site-header",{y:-18,opacity:0},{y:0,opacity:1,duration:.75,ease:"power3.out"});
-  const hero=gsap.timeline({defaults:{ease:"power3.out"}});hero.fromTo(".premium-pill",{y:18,opacity:0},{y:0,opacity:1,duration:.7}).fromTo(".premium-hero h1",{y:38,opacity:0,rotateX:-7},{y:0,opacity:1,rotateX:0,duration:1},"-=.4").fromTo(".premium-hero-copy>p",{y:22,opacity:0},{y:0,opacity:1,duration:.75},"-=.55").fromTo(".premium-hero-actions,.premium-proof",{y:18,opacity:0},{y:0,opacity:1,duration:.65,stagger:.12},"-=.4").fromTo(".hero-pedestal",{scale:.84,opacity:0},{scale:1,opacity:1,duration:1.15},.22).fromTo(".stage-card,.stage-caption",{scale:.8,opacity:0},{scale:1,opacity:1,duration:.65,stagger:.1,ease:"back.out(1.5)"},.75);
-  gsap.to(".hero-pedestal .product-visual",{y:-12,rotateY:4,duration:3,ease:"sine.inOut",repeat:-1,yoyo:true});
-  gsap.to(".stage-card-one",{y:-9,duration:2.2,ease:"sine.inOut",repeat:-1,yoyo:true});gsap.to(".stage-card-two",{y:10,duration:2.6,ease:"sine.inOut",repeat:-1,yoyo:true});
-  gsap.to(".demo-halo",{scale:1.13,opacity:.65,duration:2.4,ease:"sine.inOut",repeat:-1,yoyo:true});
-  gsap.utils.toArray<HTMLElement>("main section:not(.premium-hero)").forEach(section=>{const targets=section.querySelectorAll("h2, .premium-overline, .section-head, article, .product-story, .specification-section");if(!targets.length)return;gsap.fromTo(targets,{y:34,opacity:0},{y:0,opacity:1,duration:.8,stagger:.07,ease:"power3.out",scrollTrigger:{trigger:section,start:"top 84%",once:true}})});
-  gsap.utils.toArray<HTMLElement>(".shop-product-card").forEach(card=>{gsap.set(card,{transformPerspective:900});card.addEventListener("pointermove",e=>{if(window.innerWidth<768)return;const r=card.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5;const y=(e.clientY-r.top)/r.height-.5;gsap.to(card,{rotateY:x*5,rotateX:y*-5,y:-6,duration:.35,ease:"power2.out"})});card.addEventListener("pointerleave",()=>gsap.to(card,{rotateY:0,rotateX:0,y:0,duration:.55,ease:"power3.out"}))});
-  const stage=document.querySelector<HTMLElement>(".premium-hero-stage");if(stage){const move=(e:PointerEvent)=>{if(window.innerWidth<768)return;const r=stage.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5;const y=(e.clientY-r.top)/r.height-.5;gsap.to(".hero-pedestal .product-visual",{rotateY:x*5,rotateX:y*-3,x:x*8,duration:.55,ease:"power2.out",overwrite:"auto"});gsap.to(".stage-card-one",{x:x*-16,y:y*-12,duration:.7});gsap.to(".stage-card-two",{x:x*18,y:y*14,duration:.7})};const leave=()=>gsap.to(".hero-pedestal .product-visual",{rotateY:0,rotateX:0,x:0,duration:.8,ease:"power3.out",overwrite:"auto"});stage.addEventListener("pointermove",move);stage.addEventListener("pointerleave",leave);return()=>{stage.removeEventListener("pointermove",move);stage.removeEventListener("pointerleave",leave)}}
-});return()=>ctx.revert()},[]);return null}
+export function ExperienceMotion() {
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    gsap.registerPlugin(ScrollTrigger);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const cleanup: Array<() => void> = [];
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".site-header",
+        { y: -18, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.65, ease: "power3.out" },
+      );
+
+      const home = document.querySelector<HTMLElement>(".premium-home");
+      if (!home) return;
+
+      const hero = gsap.timeline({ defaults: { ease: "power3.out" } });
+      hero
+        .fromTo(".premium-pill", { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 })
+        .fromTo(".premium-hero h1", { y: 32, opacity: 0 }, { y: 0, opacity: 1, duration: 0.85 }, "-=.35")
+        .fromTo(".premium-hero-copy>p", { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.65 }, "-=.45")
+        .fromTo(".premium-hero-actions,.premium-proof", { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, stagger: 0.1 }, "-=.35")
+        .fromTo(".hero-pedestal", { opacity: 0 }, { opacity: 1, duration: 0.7 }, 0.18)
+        .fromTo(".stage-card,.stage-caption", { scale: 0.88, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.55, stagger: 0.08 }, 0.65);
+
+      const ambientAnimations = [
+        gsap.to(".stage-card-one", { y: -7, duration: 2.5, ease: "sine.inOut", repeat: -1, yoyo: true }),
+        gsap.to(".stage-card-two", { y: 7, duration: 2.9, ease: "sine.inOut", repeat: -1, yoyo: true }),
+      ];
+
+      const heroSection = document.querySelector<HTMLElement>(".premium-hero");
+      if (heroSection) {
+        const observer = new IntersectionObserver(
+          ([entry]) => ambientAnimations.forEach((animation) => entry.isIntersecting ? animation.resume() : animation.pause()),
+          { rootMargin: "120px 0px" },
+        );
+        observer.observe(heroSection);
+        cleanup.push(() => observer.disconnect());
+      }
+
+      gsap.to(".demo-halo", {
+        scale: 1.1,
+        opacity: 0.68,
+        duration: 2.8,
+        ease: "sine.inOut",
+        repeat: -1,
+        yoyo: true,
+        scrollTrigger: { trigger: ".premium-how", start: "top bottom", end: "bottom top", toggleActions: "play pause resume pause" },
+      });
+
+      gsap.utils.toArray<HTMLElement>(".premium-home > section:not(.premium-hero)").forEach((section) => {
+        const targets = section.querySelectorAll(":scope > .shell, :scope > .premium-section-head");
+        if (!targets.length) return;
+        gsap.fromTo(
+          targets,
+          { y: 26, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.7, ease: "power3.out", scrollTrigger: { trigger: section, start: "top 88%", once: true } },
+        );
+      });
+
+      const media = gsap.matchMedia();
+      media.add("(min-width: 768px) and (pointer: fine)", () => {
+        const stage = document.querySelector<HTMLElement>(".premium-hero-stage");
+        if (!stage) return;
+
+        const cardOne = document.querySelector<HTMLElement>(".stage-card-one");
+        const cardTwo = document.querySelector<HTMLElement>(".stage-card-two");
+        const cardOneX = cardOne ? gsap.quickTo(cardOne, "x", { duration: 0.55, ease: "power2.out" }) : null;
+        const cardTwoX = cardTwo ? gsap.quickTo(cardTwo, "x", { duration: 0.55, ease: "power2.out" }) : null;
+
+        const move = (event: PointerEvent) => {
+          const rect = stage.getBoundingClientRect();
+          const x = (event.clientX - rect.left) / rect.width - 0.5;
+          cardOneX?.(x * -12);
+          cardTwoX?.(x * 14);
+        };
+        const leave = () => {
+          cardOneX?.(0);
+          cardTwoX?.(0);
+        };
+        stage.addEventListener("pointermove", move, { passive: true });
+        stage.addEventListener("pointerleave", leave, { passive: true });
+        return () => {
+          stage.removeEventListener("pointermove", move);
+          stage.removeEventListener("pointerleave", leave);
+        };
+      });
+      cleanup.push(() => media.revert());
+    });
+
+    return () => {
+      cleanup.forEach((dispose) => dispose());
+      ctx.revert();
+    };
+  }, []);
+
+  return null;
+}

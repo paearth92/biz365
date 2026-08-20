@@ -32,7 +32,7 @@ export function getProductExperience(product: Product): ProductExperience {
       {question:"Does the customer need an app?",answer:"No. Compatible phones can tap with NFC or scan the QR code using the camera."},
       {question:"Do NFC and QR open the same destination?",answer:"Yes. Both interaction paths are prepared to reach the same intended business destination."},
       {question:"Will it work with iPhone and Android?",answer:"It is designed for modern iPhone and Android phones, with QR providing a broadly compatible scan option."},
-      {question:"Can I customize the product?",answer:"Biz365 Version 1 offers the standard designs shown. Business-name and logo customization is planned for a later release."},
+      {question:"Can I customize the product?",answer:"NFCPlate currently offers the standard designs shown. Business-name and logo customization is planned for a later release."},
     ], reviews:sampleReviews,
   };
 }

@@ -3,6 +3,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "./commerce.css";
 import "./premium.css";
+import "./portal.css";
+import "./brand.css";
+import "./header-theme.css";
+import "./nfcplate-theme.css";
 import { CartProvider } from "../components/commerce/cart-context";
 import { ExperienceMotion } from "../components/experience-motion";
 
@@ -17,14 +21,15 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Biz365 | Smart NFC Review Products for Business",
-  description: "Make it easier for customers to leave genuine reviews with premium NFC and QR review stands, cards, stickers, and business bundles from Biz365.",
+  title: "NFCPlate | Smart NFC Review Products for Business",
+  description: "Make it easier for customers to leave genuine reviews with premium NFC and QR review stands, cards, stickers, and business bundles from NFCPlate.",
   other: {
     "codex-preview": "development",
   },
   icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
+    icon: "/images/brand/nfcplate-standing-plate-mark.png",
+    shortcut: "/images/brand/nfcplate-standing-plate-mark.png",
+    apple: "/images/brand/nfcplate-standing-plate-mark.png",
   },
 };
 

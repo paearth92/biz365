@@ -1,0 +1,120 @@
+.brand-logo {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  width: 166px;
+  height: 44px;
+  padding: 0 !important;
+  overflow: visible !important;
+  color: inherit !important;
+  background: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.brand-logo::after {
+  display: none !important;
+}
+
+.brand-logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: left center;
+  filter: drop-shadow(0 5px 10px rgba(20, 52, 112, 0.13));
+}
+
+.brand-logo--mark {
+  width: 42px;
+  height: 42px;
+}
+
+.brand-logo--mark img {
+  object-position: center;
+  filter: drop-shadow(0 5px 9px rgba(8, 28, 67, 0.22));
+}
+
+.logo,
+.portal-logo,
+.checkout-logo {
+  gap: 0 !important;
+  font-size: 0 !important;
+}
+
+.logo > .brand-logo,
+.portal-logo > .brand-logo,
+.checkout-logo > .brand-logo {
+  width: 166px;
+  height: 44px;
+  background: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.logo--light > .brand-logo img {
+  filter: drop-shadow(0 7px 15px rgba(0, 0, 0, 0.32));
+}
+
+.admin-brand > .brand-logo,
+.customer-brand > .brand-logo {
+  width: 150px;
+  height: 40px;
+  background: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.admin-brand > div,
+.customer-brand > div {
+  margin-left: 2px;
+}
+
+.admin-brand > div small,
+.customer-brand > div small {
+  white-space: nowrap;
+}
+
+.admin-mobile-bar .admin-brand > .brand-logo,
+.customer-mobile-bar .customer-brand > .brand-logo {
+  width: 132px;
+  height: 35px;
+}
+
+.demo-product > .brand-logo--mark,
+.demo-stand > .brand-logo--mark,
+.shop-art-card > .brand-logo--mark {
+  position: absolute;
+  left: 14px;
+  top: 13px;
+  width: 34px;
+  height: 34px;
+  padding: 4px !important;
+  background: rgba(255, 255, 255, 0.94) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 8px 18px rgba(7, 26, 62, 0.2) !important;
+}
+
+.stand-brand > .brand-logo {
+  width: 92px;
+  height: 26px;
+}
+
+@media (max-width: 760px) {
+  .logo > .brand-logo {
+    width: 142px;
+    height: 38px;
+  }
+
+  .portal-logo > .brand-logo,
+  .checkout-logo > .brand-logo {
+    width: 140px;
+    height: 37px;
+  }
+
+  .footer-brand .brand-logo {
+    width: 156px;
+    height: 42px;
+  }
+}

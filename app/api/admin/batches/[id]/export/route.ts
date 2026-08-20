@@ -1,0 +1,7 @@
+import { asc, eq } from "drizzle-orm";
+import { getDb } from "../../../../../../db";
+import { deviceBatches, devices } from "../../../../../../db/schema";
+import { requireAdminUser } from "../../../../../../lib/device-auth";
+export const dynamic="force-dynamic";
+function csvCell(value:string|number){const text=String(value);return/[",\n]/.test(text)?`"${text.replaceAll('"','""')}"`:text}
+export async function GET(_:Request,{params}:{params:Promise<{id:string}>}){const admin=await requireAdminUser();if(!admin)return Response.json({error:"Admin access required"},{status:403});const{id}=await params;const db=getDb();const[batch]=await db.select().from(deviceBatches).where(eq(deviceBatches.id,id)).limit(1);if(!batch)return Response.json({error:"Batch not found"},{status:404});const rows=await db.select().from(devices).where(eq(devices.batchId,id)).orderBy(asc(devices.createdAt),asc(devices.publicCode));const output=[["sequence","batch_label","product_type","code","full_url","qr_url","nfc_url"],...rows.map((device,index)=>{const url=`${batch.baseUrl}/c/${device.publicCode}`;return[index+1,batch.name,device.productType,device.publicCode,url,url,url]})].map(row=>row.map(csvCell).join(",")).join("\r\n");const filename=batch.name.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")||"biz365-batch";return new Response(output,{headers:{"content-type":"text/csv; charset=utf-8","content-disposition":`attachment; filename="${filename}.csv"`,"cache-control":"no-store"}})}

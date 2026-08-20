@@ -1,0 +1,11 @@
+[build]
+  command = "bash scripts/build-netlify-static.sh"
+  publish = "netlify-static"
+
+[build.environment]
+  NEXT_TELEMETRY_DISABLED = "1"
+
+[[redirects]]
+  from = "/"
+  to = "/index.html"
+  status = 200

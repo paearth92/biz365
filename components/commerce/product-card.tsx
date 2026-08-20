@@ -14,7 +14,7 @@ export function ProductCard({ product }: { product: Product }) {
     <div className="shop-product-card__media">
       {product.badge && <span className="commerce-badge">{product.badge}</span>}
       <button className="heart-button" aria-label={`Save ${product.name}`}><Heart /></button>
-      <Link href={`/products/${product.slug}`} aria-label={`View ${product.name}`}><ProductVisual tone={product.tone} compact /></Link>
+      <Link href={`/products/${product.slug}`} aria-label={`View ${product.name}`}><ProductVisual product={product} tone={product.tone} compact /></Link>
       <button className="quick-shop" onClick={() => addItem({ productSlug: product.slug, variantId: product.variants[0].id, quantity: 1 })}>Quick add <ArrowRight /></button>
     </div>
     <div className="shop-product-card__content">

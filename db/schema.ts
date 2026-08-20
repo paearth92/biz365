@@ -1,4 +1,4 @@
-// Intentionally empty by default.
-// Add Drizzle tables here when the site actually needs a database.
-// See examples/d1/db/schema.ts for an opt-in example.
-export {};
+import { sql } from "drizzle-orm";
+import { index,integer,sqliteTable,text,uniqueIndex } from "drizzle-orm/sqlite-core";
+export const deviceBatches=sqliteTable("device_batches",{id:text("id").primaryKey(),name:text("name").notNull(),productType:text("product_type").notNull(),quantity:integer("quantity").notNull(),baseUrl:text("base_url").notNull(),createdBy:text("created_by").notNull(),createdAt:text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`)});
+export const devices=sqliteTable("devices",{id:text("id").primaryKey(),batchId:text("batch_id").notNull().references(()=>deviceBatches.id,{onDelete:"cascade"}),publicCode:text("public_code").notNull(),productType:text("product_type").notNull(),status:text("status",{enum:["unused","active","disabled"]}).notNull().default("unused"),ownerEmail:text("owner_email"),label:text("label"),destinationType:text("destination_type"),destinationUrl:text("destination_url"),scanCount:integer("scan_count").notNull().default(0),claimedAt:text("claimed_at"),lastScannedAt:text("last_scanned_at"),updatedAt:text("updated_at").notNull().default(sql`CURRENT_TIMESTAMP`),createdAt:text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`)},table=>[uniqueIndex("devices_public_code_unique").on(table.publicCode),index("devices_batch_id_idx").on(table.batchId),index("devices_owner_email_idx").on(table.ownerEmail),index("devices_status_idx").on(table.status)]);

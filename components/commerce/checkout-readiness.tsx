@@ -2,11 +2,195 @@
 
 import Link from "next/link";
 import { FormEvent, useState } from "react";
-import { ChevronDown, LockKeyhole, Nfc, QrCode, ShieldCheck, Truck } from "lucide-react";
+import { ChevronDown, LockKeyhole, Nfc, ShieldCheck, Truck } from "lucide-react";
 import { getProduct } from "../../lib/catalog";
 import type { CartItem } from "./cart-context";
 import { useCart } from "./cart-context";
 import { OrderSummary } from "./order-summary";
+import { BrandLogo } from "../brand-logo";
+import { QrCode } from "../qr-icon";
 
-type CheckoutLine={item:CartItem;product:NonNullable<ReturnType<typeof getProduct>>;variant:NonNullable<ReturnType<typeof getProduct>>["variants"][number]};
-export function CheckoutReadiness(){const {items}=useCart();const [summaryOpen,setSummaryOpen]=useState(false);const [notice,setNotice]=useState("");const lines=items.map(item=>{const product=getProduct(item.productSlug);const variant=product?.variants.find(v=>v.id===item.variantId);return product&&variant?{item,product,variant}:null}).filter(Boolean) as CheckoutLine[];const subtotal=lines.reduce((sum,line)=>sum+line.variant.price*line.item.quantity,0);const continuePayment=(e:FormEvent)=>{e.preventDefault();setNotice("Secure payment will be enabled when the live commerce connection is added. No information has been submitted or saved.")};return <div className="checkout-shell"><header className="checkout-header"><Link href="/" className="checkout-logo"><span>B</span><strong>Biz365</strong></Link><div><LockKeyhole/> Checkout readiness</div></header><nav className="checkout-progress" aria-label="Checkout progress"><span className="complete">Cart</span><i/><span className="active">Information</span><i/><span>Shipping</span><i/><span>Payment</span></nav>{!lines.length?<section className="checkout-empty"><h1>Your cart is empty.</h1><p>Add a standard Biz365 product before viewing checkout readiness.</p><Link href="/shop">Shop products</Link></section>:<><button className="mobile-summary-toggle" onClick={()=>setSummaryOpen(!summaryOpen)}>Show order summary <ChevronDown/> <strong>${subtotal.toFixed(2)}</strong></button><div className="checkout-grid"><form className="checkout-form" onSubmit={continuePayment}><section><div className="checkout-section-head"><div><span>01</span><h1>Contact information</h1></div><small>Not saved in this readiness version</small></div><label>Email address<input type="email" autoComplete="email" required placeholder="you@business.com"/></label><label>Phone number <em>Optional</em><input type="tel" autoComplete="tel" placeholder="(555) 555-5555"/></label></section><section><div className="checkout-section-head"><div><span>02</span><h2>Shipping address</h2></div></div><div className="checkout-fields"><label>First name<input required autoComplete="given-name"/></label><label>Last name<input required autoComplete="family-name"/></label><label className="wide">Business name <em>Optional</em><input autoComplete="organization"/></label><label className="wide">Street address<input required autoComplete="street-address"/></label><label>City<input required autoComplete="address-level2"/></label><label>State<select required autoComplete="address-level1" defaultValue=""><option value="" disabled>Select state</option><option>PA</option><option>OH</option><option>NY</option><option>NJ</option><option>Other U.S. state</option></select></label><label>ZIP code<input required inputMode="numeric" maxLength={5} pattern="[0-9]{5}" autoComplete="postal-code"/></label><label>Country<input value="United States" readOnly/></label></div></section><section><div className="checkout-section-head"><div><span>03</span><h2>Shipping preview</h2></div></div><label className="shipping-choice"><input type="radio" checked readOnly/><Truck/><span><strong>Standard U.S. shipping</strong><small>Estimated 4–7 business days; confirmed at live checkout.</small></span><em>{subtotal>=35?"Free":"Estimated later"}</em></label></section><div className="checkout-reassurance"><span><Nfc/> NFC tap included</span><span><QrCode/> QR scan included</span><span><ShieldCheck/> Payment not yet collected</span></div><button className="continue-payment">Continue to payment <LockKeyhole/></button>{notice&&<div className="payment-readiness-notice" role="status"><strong>Checkout connection coming next</strong><p>{notice}</p></div>}<p className="checkout-privacy">This Phase 4 interface does not submit, transmit, or store the information entered above.</p></form><aside className={`checkout-summary ${summaryOpen?"open":""}`}><div className="checkout-products">{lines.map(line=><div key={`${line.item.productSlug}-${line.item.variantId}`}><span className={`checkout-thumb cart-thumb--${line.product.tone}`}>B<i>{line.item.quantity}</i></span><p><strong>{line.product.name}</strong><small>{line.variant.name}</small></p><em>${(line.variant.price*line.item.quantity).toFixed(2)}</em></div>)}</div><OrderSummary subtotal={subtotal}/><Link href="/cart">← Return to cart</Link></aside></div></>}</div>}
+type CheckoutLine = {
+  item: CartItem;
+  product: NonNullable<ReturnType<typeof getProduct>>;
+  variant: NonNullable<ReturnType<typeof getProduct>>["variants"][number];
+};
+export function CheckoutReadiness() {
+  const { items } = useCart();
+  const [summaryOpen, setSummaryOpen] = useState(false);
+  const [notice, setNotice] = useState("");
+  const lines = items
+    .map((item) => {
+      const product = getProduct(item.productSlug);
+      const variant = product?.variants.find((v) => v.id === item.variantId);
+      return product && variant ? { item, product, variant } : null;
+    })
+    .filter(Boolean) as CheckoutLine[];
+  const subtotal = lines.reduce((sum, line) => sum + line.variant.price * line.item.quantity, 0);
+  const continuePayment = (e: FormEvent) => {
+    e.preventDefault();
+    setNotice("Secure payment will be enabled when the live commerce connection is added. No information has been submitted or saved.");
+  };
+  return (
+    <div className="checkout-shell">
+      <header className="checkout-header">
+        <Link href="/" className="checkout-logo">
+          <BrandLogo priority />
+        </Link>
+        <div>
+          <LockKeyhole /> Checkout readiness
+        </div>
+      </header>
+      <nav className="checkout-progress" aria-label="Checkout progress">
+        <span className="complete">Cart</span>
+        <i />
+        <span className="active">Information</span>
+        <i />
+        <span>Shipping</span>
+        <i />
+        <span>Payment</span>
+      </nav>
+      {!lines.length ? (
+        <section className="checkout-empty">
+          <h1>Your cart is empty.</h1>
+          <p>Add a standard NFCPlate product before viewing checkout readiness.</p>
+          <Link href="/shop">Shop products</Link>
+        </section>
+      ) : (
+        <>
+          <button className="mobile-summary-toggle" onClick={() => setSummaryOpen(!summaryOpen)}>
+            Show order summary <ChevronDown /> <strong>${subtotal.toFixed(2)}</strong>
+          </button>
+          <div className="checkout-grid">
+            <form className="checkout-form" onSubmit={continuePayment}>
+              <section>
+                <div className="checkout-section-head">
+                  <div>
+                    <span>01</span>
+                    <h1>Contact information</h1>
+                  </div>
+                  <small>Not saved in this readiness version</small>
+                </div>
+                <label>
+                  Email address
+                  <input type="email" autoComplete="email" required placeholder="you@business.com" />
+                </label>
+                <label>
+                  Phone number <em>Optional</em>
+                  <input type="tel" autoComplete="tel" placeholder="(555) 555-5555" />
+                </label>
+              </section>
+              <section>
+                <div className="checkout-section-head">
+                  <div>
+                    <span>02</span>
+                    <h2>Shipping address</h2>
+                  </div>
+                </div>
+                <div className="checkout-fields">
+                  <label>
+                    First name
+                    <input required autoComplete="given-name" />
+                  </label>
+                  <label>
+                    Last name
+                    <input required autoComplete="family-name" />
+                  </label>
+                  <label className="wide">
+                    Business name <em>Optional</em>
+                    <input autoComplete="organization" />
+                  </label>
+                  <label className="wide">
+                    Street address
+                    <input required autoComplete="street-address" />
+                  </label>
+                  <label>
+                    City
+                    <input required autoComplete="address-level2" />
+                  </label>
+                  <label>
+                    State
+                    <select required autoComplete="address-level1" defaultValue="">
+                      <option value="" disabled>
+                        Select state
+                      </option>
+                      <option>PA</option>
+                      <option>OH</option>
+                      <option>NY</option>
+                      <option>NJ</option>
+                      <option>Other U.S. state</option>
+                    </select>
+                  </label>
+                  <label>
+                    ZIP code
+                    <input required inputMode="numeric" maxLength={5} pattern="[0-9]{5}" autoComplete="postal-code" />
+                  </label>
+                  <label>
+                    Country
+                    <input value="United States" readOnly />
+                  </label>
+                </div>
+              </section>
+              <section>
+                <div className="checkout-section-head">
+                  <div>
+                    <span>03</span>
+                    <h2>Shipping preview</h2>
+                  </div>
+                </div>
+                <label className="shipping-choice">
+                  <input type="radio" checked readOnly />
+                  <Truck />
+                  <span>
+                    <strong>Standard U.S. shipping</strong>
+                    <small>Estimated 4–7 business days; confirmed at live checkout.</small>
+                  </span>
+                  <em>{subtotal >= 35 ? "Free" : "Estimated later"}</em>
+                </label>
+              </section>
+              <div className="checkout-reassurance">
+                <span>
+                  <Nfc /> NFC tap included
+                </span>
+                <span>
+                  <QrCode /> QR scan included
+                </span>
+                <span>
+                  <ShieldCheck /> Payment not yet collected
+                </span>
+              </div>
+              <button className="continue-payment">
+                Continue to payment <LockKeyhole />
+              </button>
+              {notice && (
+                <div className="payment-readiness-notice" role="status">
+                  <strong>Checkout connection coming next</strong>
+                  <p>{notice}</p>
+                </div>
+              )}
+              <p className="checkout-privacy">This Phase 4 interface does not submit, transmit, or store the information entered above.</p>
+            </form>
+            <aside className={`checkout-summary ${summaryOpen ? "open" : ""}`}>
+              <div className="checkout-products">
+                {lines.map((line) => (
+                  <div key={`${line.item.productSlug}-${line.item.variantId}`}>
+                    <span className={`checkout-thumb cart-thumb--${line.product.tone}`}>
+                      B<i>{line.item.quantity}</i>
+                    </span>
+                    <p>
+                      <strong>{line.product.name}</strong>
+                      <small>{line.variant.name}</small>
+                    </p>
+                    <em>${(line.variant.price * line.item.quantity).toFixed(2)}</em>
+                  </div>
+                ))}
+              </div>
+              <OrderSummary subtotal={subtotal} />
+              <Link href="/cart">← Return to cart</Link>
+            </aside>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}

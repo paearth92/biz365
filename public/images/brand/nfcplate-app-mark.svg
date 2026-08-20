@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140" role="img" aria-labelledby="title">
+  <title id="title">NFCPlate</title>
+  <rect width="140" height="140" rx="30" fill="#f6f4ee"/>
+  <g transform="translate(18 10)">
+    <path d="M19 5h61c8 0 13 7 11 15L75 103c-1 7-7 12-14 12H8c-6 0-10-6-8-12L16 17c1-7 7-12 13-12Z" fill="#181817"/>
+    <path d="M78 21l26 64c3 8-1 17-10 17H73l5-81Z" fill="#30302e"/>
+    <path d="M69 103h43c6 0 10 5 10 10s-4 9-10 9H51l18-19Z" fill="#111110"/>
+    <g fill="none" stroke="#fff" stroke-width="3.7" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="29" y="30" width="28" height="43" rx="4"/>
+      <path d="M38 36h10M40 66h6"/>
+      <path d="M63 51c8 3 13 10 13 18M64 59c4 2 7 6 7 10"/>
+      <path d="M46 78V58c0-3 5-3 5 0v10-4c0-3 5-3 5 0v6-3c0-3 5-3 5 0v5-2c0-3 5-3 5 0v11c0 8-6 14-14 14h-2c-5 0-9-2-12-6l-6-9c-2-3 2-7 5-4l9 7"/>
+    </g>
+  </g>
+</svg>
