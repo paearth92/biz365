@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { Nfc, Check, Loader2, ArrowLeft } from "lucide-react";
+import { Nfc, Check, Loader as Loader2, ArrowLeft } from "lucide-react";
 import { SiteHeader } from "../components/SiteHeader";
 import { AnnouncementBar } from "../components/AnnouncementBar";
 import { SiteFooter } from "../components/SiteFooter";

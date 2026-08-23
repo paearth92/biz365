@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Home, ShoppingBag, Info } from "lucide-react";
+import { Chrome as Home, ShoppingBag, Info } from "lucide-react";
 
 export function MobileDock() {
   return (
